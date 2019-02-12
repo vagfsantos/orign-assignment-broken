@@ -16,7 +16,7 @@ The `response converter` test suit is `skipped` since we allow you to integrate 
 
 ### Component styling
 
-The styling for the [react components](src/components) were also removed, so that we can test your ability to write it again just from these [committed screenshots](screenhots).
+The styling for the [react components](src/components) were also removed, so that we can test your ability to write it again just from these [committed screenshots](screenshots).
 
 We are aware that styling is not what makes you a great programmer, so you don't have to show advanced CSS tricks: just make sure the images [Cypress](https://www.cypress.io/) automatically generated when you run the end to end tests (in `/cypress/screenshots/App.spec.ts/`) are similar enough to the originals.
 
