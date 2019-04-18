@@ -13,7 +13,7 @@ export const validate = (vin: string): string => (vin.length === VIN_LENGTH ? nu
 const findField = (fieldToFind: string, fields: VinResultEntry[]): VinResultEntry =>
     fields.find(({ Variable }: VinResultEntry) => Variable === fieldToFind)
 
-const getValue = (field: VinResultEntry = {} as VinResultEntry) => {
+const getValue = (field: VinResultEntry = {} as any): string => {
     return field.Value || ""
 }
 
