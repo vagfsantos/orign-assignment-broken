@@ -25,7 +25,12 @@ export const initialState: RootState = {
     vinValidationError: null
 }
 
-export const checkVinCmd = (_vin: string) => () => Cmd.run(vinService.apiCheck, {} as any)
+export const checkVinCmd = (vin: string) =>
+    Cmd.run(vinService.apiCheck, {
+        args: [vin],
+        successActionCreator: (payload: CarInfo) => actions[checkVinSuccess](payload),
+        failActionCreator: (payload: Error) => actions[checkVinFail](payload)
+    } as any)
 
 export const reducer: LoopReducer<RootState, Actions> = (state, action: Actions) => {
     const ext = extend(state)
@@ -35,6 +40,7 @@ export const reducer: LoopReducer<RootState, Actions> = (state, action: Actions)
         case setVin:
             const vin = vinService.filter(action.payload)
             const vinCheckResult = vin === "" ? null : state.vinCheckResult
+
             return ext({ vin, vinValidationError: null, vinCheckResult })
 
         case checkVin:
@@ -45,6 +51,9 @@ export const reducer: LoopReducer<RootState, Actions> = (state, action: Actions)
 
         case checkVinSuccess:
             return ext({ vinCheckResult: action.payload })
+
+        case checkVinFail:
+            return ext({ vinValidationError: "action.payload", vinCheckResult: "NotLoaded" })
 
         default:
             return state
@@ -63,12 +72,7 @@ export const getStore = () => {
         store = createStore(
             reducer,
             initialState,
-            devToolsExtension
-                ? compose(
-                      install(),
-                      devToolsExtension()
-                  )
-                : install()
+            devToolsExtension ? compose(install(), devToolsExtension()) : install()
         ) as TStore
     }
     return store
